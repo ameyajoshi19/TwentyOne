@@ -7,7 +7,7 @@ package com.game.twentyone.model.game;
  * @author AmeyaCJoshi
  *
  */
-public class Game {
+public class GameRules {
 
 	private boolean dealerHitsOn17;
 	private boolean doubleDownAllowed;
