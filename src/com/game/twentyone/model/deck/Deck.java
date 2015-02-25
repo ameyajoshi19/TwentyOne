@@ -1,4 +1,4 @@
-package com.game.twentyone.deck.model;
+package com.game.twentyone.model.deck;
 
 import java.util.List;
 
