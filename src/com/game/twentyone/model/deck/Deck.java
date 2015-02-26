@@ -2,6 +2,8 @@ package com.game.twentyone.model.deck;
 
 import java.util.List;
 
+import com.game.twentyone.model.deck.values.Card;
+
 /**
  * <p>
  * This class implements the model of a deck.

@@ -1,4 +1,4 @@
-package com.game.twentyone.model.game;
+package com.game.twentyone.model.game.rules;
 
 /**
  * <p>

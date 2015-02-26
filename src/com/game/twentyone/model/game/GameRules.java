@@ -1,5 +1,9 @@
 package com.game.twentyone.model.game;
 
+import com.game.twentyone.model.game.rules.BlackJackPayout;
+import com.game.twentyone.model.game.rules.DeckCount;
+import com.game.twentyone.model.game.rules.DeckPenetration;
+
 /**
  * <p>
  * This class declares the model for a game.
@@ -13,7 +17,7 @@ public class GameRules {
 	private boolean doubleDownAllowed;
 	private boolean tripleDownAllowed;
 	private boolean surrenderAllowed;
-	private Payout blackJackPayout;
+	private BlackJackPayout blackJackPayout;
 	private DeckCount deckCount;
 	private DeckPenetration deckPenetration;
 	
@@ -49,11 +53,11 @@ public class GameRules {
 		this.surrenderAllowed = surrenderAllowed;
 	}
 	
-	public Payout getBlackJackPayout() {
+	public BlackJackPayout getBlackJackPayout() {
 		return blackJackPayout;
 	}
 	
-	public void setBlackJackPayout(Payout blackJackPayout) {
+	public void setBlackJackPayout(BlackJackPayout blackJackPayout) {
 		this.blackJackPayout = blackJackPayout;
 	}
 	

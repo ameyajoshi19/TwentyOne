@@ -1,4 +1,4 @@
-package com.game.twentyone.model.deck;
+package com.game.twentyone.model.deck.values;
 
 /**
  * <p>
