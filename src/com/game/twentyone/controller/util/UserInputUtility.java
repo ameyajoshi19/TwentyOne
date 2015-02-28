@@ -21,8 +21,7 @@ import com.game.twentyone.model.game.rules.DeckPenetration;
  */
 public class UserInputUtility {
 
-	private static Logger logger = Logger.getLogger(UserInputUtility.class
-	        .getCanonicalName());
+	private static Logger logger = Logger.getLogger(UserInputUtility.class.getName());
 	private static InputStreamReader isr;
 	private static BufferedReader br;
 
@@ -43,16 +42,22 @@ public class UserInputUtility {
 
 	/**
 	 * Take deck count as an input from user.
+	 * @throws InterruptedException 
 	 */
-	public DeckCount getDeckCountFromUser() {
+	public DeckCount getDeckCountFromUser() throws InterruptedException {
 		System.out
-		        .println("How many decks of cards you want to play with? (Default is ONE.  Press ENTER for default.)"
-		                + Arrays.asList(DeckCount.values()) + ": ");
+		        .print("How many decks of cards you want to play with? (Default is " + DECK_COUNT_DEFAULT
+		        		+ ". Press ENTER for default.) " + Arrays.asList(DeckCount.values()) + ": ");
 		int userCount = DECK_COUNT_DEFAULT.getDeckCount();
 		try {
 			userCount = Integer.parseInt(br.readLine());
+		} catch (NumberFormatException e) {
+			logger.info("Error reading the deck count. Setting it to default.");
 		} catch (IOException e) {
 			logger.info("Error reading the deck count. Setting it to default.");
+		} finally {
+			// Sleeping to give time to give logger to log.
+			Thread.sleep(100);
 		}
 		// Iterate over DeckCount enum only if userCount is not default.
 		DeckCount enteredCount = null;
@@ -72,17 +77,23 @@ public class UserInputUtility {
 
 	/**
 	 * Take deck penetration as an input from user.
+	 * @throws InterruptedException 
 	 */
-	public DeckPenetration getDeckPenetrationFromUser() {
+	public DeckPenetration getDeckPenetrationFromUser() throws InterruptedException {
 		System.out
-		        .println("What should be the deck penetration? (Deck penetration is the percentage depth"
-		                + " of the deck when it will be reshuffled. Default is 80%. Press ENTER for default.) "
-		                + Arrays.asList(DeckPenetration.values()) + ": ");
+		        .print("What should be the deck penetration? (Deck penetration is the percentage depth"
+		                + " of the deck when it will be reshuffled. Default is " + DECK_PENETRATION_DEFAULT 
+		                + ". Press ENTER for default.) " + Arrays.asList(DeckPenetration.values()) + ": ");
 		int userPenetration = DECK_PENETRATION_DEFAULT.getDeckPenetration();
 		try {
 			userPenetration = Integer.parseInt(br.readLine());
-		} catch (IOException e) {
+		} catch (NumberFormatException e) {
+			logger.info("Error reading the deck count. Setting it to default.");
+		}  catch (IOException e) {
 			logger.info("Error reading the deck penetration. Setting it to default.");
+		} finally {
+			// Sleeping to give time to give logger to log.
+			Thread.sleep(100);
 		}
 		// Iterate over DeckPenetration enum only if userPenetration is not
 		// default.
@@ -104,70 +115,87 @@ public class UserInputUtility {
 
 	/**
 	 * Ask user if 'surrender' is allowed.
+	 * @throws InterruptedException 
 	 */
-	public boolean getIsSurrenderAllowedFromUser() {
+	public boolean getIsSurrenderAllowedFromUser() throws InterruptedException {
 		System.out
-		        .println("Is 'surrender' allowed in the game? (Default is false. Press ENTER for default.): ");
+		        .print("Is 'surrender' allowed in the game? (Default is " + SURRENDER_ALLOWED_DEFAULT + ". Press ENTER for default.): ");
 		boolean isSurrenderAllowed = SURRENDER_ALLOWED_DEFAULT;
 		try {
 			isSurrenderAllowed = Boolean.parseBoolean(br.readLine());
 		} catch (IOException e) {
 			logger.info("Error reading the value for isSurrenderAllowed. Setting it to default.");
+		} finally {
+			// Sleeping to give time to give logger to log.
+			Thread.sleep(100);
 		}
 		return isSurrenderAllowed;
 	}
 
 	/**
 	 * Ask user if 'double down' is allowed.
+	 * @throws InterruptedException 
 	 */
-	public boolean getIsDoubleDownAllowedFromUser() {
+	public boolean getIsDoubleDownAllowedFromUser() throws InterruptedException {
 		System.out
-		        .println("Should 'double down' allowed in the game? (Default is false. Press ENTER for default.): ");
+		        .print("Should 'double down' allowed in the game? (Default is " + DOUBLE_DOWN_ALLOWED_DEFAULT + ". Press ENTER for default.): ");
 		boolean isDoubleDownAllowed = DOUBLE_DOWN_ALLOWED_DEFAULT;
 		try {
 			isDoubleDownAllowed = Boolean.parseBoolean(br.readLine());
 		} catch (IOException e) {
 			logger.info("Error reading the value for isDoubleDownAllowed. Setting it to default.");
+		} finally {
+			// Sleeping to give time to give logger to log.
+			Thread.sleep(100);
 		}
 		return isDoubleDownAllowed;
 	}
 
 	/**
 	 * Ask user if 'triple down' is allowed.
+	 * @throws InterruptedException 
 	 */
-	public boolean getIsTripleDownAllowedFromUser() {
+	public boolean getIsTripleDownAllowedFromUser() throws InterruptedException {
 		System.out
-		        .println("Should 'triple down' allowed in the game? (Default is false.) Press ENTER for default.: ");
+		        .print("Should 'triple down' allowed in the game? (Default is " + TRIPLE_DOWN_ALLOWED_DEFAULT + ". Press ENTER for default.): ");
 		boolean isTripleDownAllowed = TRIPLE_DOWN_ALLOWED_DEFAULT;
 		try {
 			isTripleDownAllowed = Boolean.parseBoolean(br.readLine());
 		} catch (IOException e) {
 			logger.info("Error reading the value for isTripleDownAllowed. Setting it to default.");
+		} finally {
+			// Sleeping to give time to give logger to log.
+			Thread.sleep(100);
 		}
 		return isTripleDownAllowed;
 	}
 
 	/**
 	 * Ask user if 'dealer hits on 17'.
+	 * @throws InterruptedException 
 	 */
-	public boolean getDoesDealerHitOn17FromUser() {
+	public boolean getDoesDealerHitOn17FromUser() throws InterruptedException {
 		System.out
-		        .println("Should dealer hit on 17? (Default is false. Press ENTER for default.): ");
+		        .print("Should dealer hit on 17? (Default is " + DEALER_HITS_ON_17_DEFAULT + ". Press ENTER for default.): ");
 		boolean doesDealerHitOn17 = DEALER_HITS_ON_17_DEFAULT;
 		try {
 			doesDealerHitOn17 = Boolean.parseBoolean(br.readLine());
 		} catch (IOException e) {
 			logger.info("Error reading the value for doesDealerHitOn17. Setting it to default.");
+		} finally {
+			// Sleeping to give time to give logger to log.
+			Thread.sleep(100);
 		}
 		return doesDealerHitOn17;
 	}
 
 	/**
 	 * Take 'blackJack payout' as an input from user.
+	 * @throws InterruptedException 
 	 */
-	public BlackJackPayout getBlackJackPayoutFromUser() {
+	public BlackJackPayout getBlackJackPayoutFromUser() throws InterruptedException {
 		System.out
-		        .println("What is the BJ payout? Default is 2. Press ENTER for default.)"
+		        .print("What is the BJ payout? (Default is " + BLACKJACK_PAYOUT_DEFAULT + ". Press ENTER for default.) "
 		                + Arrays.asList(BlackJackPayout.values()) + ": ");
 		double userPayout = BLACKJACK_PAYOUT_DEFAULT.getBlackjackPayout();
 		String userInput = null;
@@ -175,7 +203,10 @@ public class UserInputUtility {
 	        userInput = br.readLine();
         } catch (IOException e) {
         	logger.info("Error reading the value for blackjackPayout. Setting it to default.");
-        }
+        } finally {
+			// Sleeping to give time to give logger to log.
+			Thread.sleep(1000);
+		}
 		if(!userInput.equalsIgnoreCase(BJ_PAYOUT_2_TO_1) && !userInput.equalsIgnoreCase(BJ_PAYOUT_3_TO_2)) {
 			logger.info("Error reading the value for blackjackPayout. Setting it to default.");
 		}

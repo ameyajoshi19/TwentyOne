@@ -21,7 +21,7 @@ public class GameRules {
 	private DeckCount deckCount;
 	private DeckPenetration deckPenetration;
 	
-	public boolean isDealerHitsOn17() {
+	public boolean getDealerHitsOn17() {
 		return dealerHitsOn17;
 	}
 	
