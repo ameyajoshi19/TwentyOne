@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import com.game.twentyone.controller.util.UserInputUtility;
+import com.game.twentyone.model.game.Game;
 import com.game.twentyone.model.game.GameRules;
 import com.game.twentyone.model.game.rules.BlackJackPayout;
 import com.game.twentyone.model.game.rules.DeckCount;
@@ -11,7 +12,7 @@ import com.game.twentyone.model.game.rules.DeckPenetration;
 
 /**
  * <p>
- * This is the main class of the game. Runner class.
+ * This is the main controller class for the app.
  * </p>
  * @author AmeyaCJoshi
  *
@@ -31,8 +32,15 @@ public class TwentyOne {
 	private void startGame() {
 		System.out.println("Welcome to TwentyOne! Are you ready for a game of BlackJack? Alright then!");
 		GameRules rules = initializeRules();
-		
+		Game game = initializeGame(rules);
 		//TODO: implement game logic.
+	}
+	
+	/**
+	 * Initliaze the game using the game rules.
+	 */
+	private Game initializeGame(GameRules rules) {
+		return new Game(rules);
 	}
 	
 	/**

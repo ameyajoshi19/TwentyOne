@@ -48,7 +48,7 @@ public class UserInputUtility {
 		System.out
 		        .print("How many decks of cards you want to play with? (Default is " + DECK_COUNT_DEFAULT
 		        		+ ". Press ENTER for default.) " + Arrays.asList(DeckCount.values()) + ": ");
-		int userCount = DECK_COUNT_DEFAULT.getDeckCount();
+		int userCount = DECK_COUNT_DEFAULT.getDeckCountIntValue();
 		try {
 			userCount = Integer.parseInt(br.readLine());
 		} catch (NumberFormatException e) {
@@ -61,9 +61,9 @@ public class UserInputUtility {
 		}
 		// Iterate over DeckCount enum only if userCount is not default.
 		DeckCount enteredCount = null;
-		if (userCount != DECK_COUNT_DEFAULT.getDeckCount()) {
+		if (userCount != DECK_COUNT_DEFAULT.getDeckCountIntValue()) {
 			for (DeckCount count : DeckCount.values()) {
-				if (userCount == count.getDeckCount()) {
+				if (userCount == count.getDeckCountIntValue()) {
 					enteredCount = count;
 				}
 			}

@@ -12,6 +12,14 @@ public class Card {
 	private SuiteValue cardSuite;
 	private CardValue cardValue;
 	
+	/**
+	 * Constructor.
+	 */
+	public Card(CardValue card, SuiteValue suite) {
+		this.cardSuite = suite;
+		this.cardValue = card;
+	}
+	
 	public SuiteValue getCardSuite() {
 		return cardSuite;
 	}

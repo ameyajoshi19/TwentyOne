@@ -22,7 +22,7 @@ public enum DeckCount {
 		this.deckCount = deckCount;
 	}
 	
-	public int getDeckCount() {
+	public int getDeckCountIntValue() {
 		return this.deckCount;
 	}
 }
