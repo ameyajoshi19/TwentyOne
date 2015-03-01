@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.game.twentyone.model.deck.values.Card;
 import com.game.twentyone.model.deck.values.CardValue;
+import com.game.twentyone.model.deck.values.PlayerMoney;
 import com.game.twentyone.model.deck.values.SuiteValue;
-import com.game.twentyone.model.game.rules.DeckCount;
 
 /**
  * <p>
@@ -20,6 +20,9 @@ public class Game {
 	private GameRules gameRules;
 	private List<Card> unseenCards;
 	private List<Card> seenCards;
+	private PlayerMoney playerMoney;
+	
+	private static final double INITIAL_MONEY = 1000.0; 
 	
 	/**
 	 * Constructor.
@@ -28,6 +31,7 @@ public class Game {
 		this.gameRules = rules;
 		this.unseenCards = initializeDecks(rules.getDeckCount().getDeckCountIntValue());
 		this.seenCards = new ArrayList<Card>();
+		this.playerMoney.setPlayerMoney(INITIAL_MONEY);
 	}
 	
 	/**
@@ -68,5 +72,13 @@ public class Game {
 
 	public void setSeenCards(List<Card> seenCards) {
     	this.seenCards = seenCards;
+    }
+
+	public PlayerMoney getPlayerMoney() {
+    	return playerMoney;
+    }
+
+	public void setPlayerMoney(PlayerMoney playerMoney) {
+    	this.playerMoney = playerMoney;
     }
 }

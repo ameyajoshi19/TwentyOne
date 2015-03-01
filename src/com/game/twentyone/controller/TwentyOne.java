@@ -33,7 +33,11 @@ public class TwentyOne {
 		System.out.println("Welcome to TwentyOne! Are you ready for a game of BlackJack? Alright then!");
 		GameRules rules = initializeRules();
 		Game game = initializeGame(rules);
+		
+		
 		//TODO: implement game logic.
+		
+		
 	}
 	
 	/**
