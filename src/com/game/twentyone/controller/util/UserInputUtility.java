@@ -56,7 +56,7 @@ public class UserInputUtility {
 		} catch (IOException e) {
 			logger.info("Error reading the deck count. Setting it to default.");
 		} finally {
-			// Sleeping to give time to give logger to log.
+			// Sleeping to give time to logger to log.
 			Thread.sleep(100);
 		}
 		// Iterate over DeckCount enum only if userCount is not default.
@@ -68,7 +68,7 @@ public class UserInputUtility {
 				}
 			}
 		}
-		// Set vvalue to default if null.
+		// Set value to default if null.
 		if (null == enteredCount) {
 			enteredCount = DECK_COUNT_DEFAULT;
 		}
@@ -88,17 +88,16 @@ public class UserInputUtility {
 		try {
 			userPenetration = Integer.parseInt(br.readLine());
 		} catch (NumberFormatException e) {
-			logger.info("Error reading the deck count. Setting it to default.");
+			logger.info("Error reading the deck penetration. Setting it to default.");
 		}  catch (IOException e) {
 			logger.info("Error reading the deck penetration. Setting it to default.");
 		} finally {
-			// Sleeping to give time to give logger to log.
+			// Sleeping to give time to logger to log.
 			Thread.sleep(100);
 		}
-		// Iterate over DeckPenetration enum only if userPenetration is not
-		// default.
-		DeckPenetration enteredPenetration = null; // 'enteredPenetration' pun
-												   // not intended! :P
+		
+		// Iterate over DeckPenetration enum only if userPenetration is not default.
+		DeckPenetration enteredPenetration = null; // 'enteredPenetration' pun not intended! :P
 		if (userPenetration != DECK_PENETRATION_DEFAULT.getDeckPenetration()) {
 			for (DeckPenetration penetration : DeckPenetration.values()) {
 				if (userPenetration == penetration.getDeckPenetration()) {
@@ -126,7 +125,7 @@ public class UserInputUtility {
 		} catch (IOException e) {
 			logger.info("Error reading the value for isSurrenderAllowed. Setting it to default.");
 		} finally {
-			// Sleeping to give time to give logger to log.
+			// Sleeping to give time to logger to log.
 			Thread.sleep(100);
 		}
 		return isSurrenderAllowed;
@@ -145,7 +144,7 @@ public class UserInputUtility {
 		} catch (IOException e) {
 			logger.info("Error reading the value for isDoubleDownAllowed. Setting it to default.");
 		} finally {
-			// Sleeping to give time to give logger to log.
+			// Sleeping to give time to logger to log.
 			Thread.sleep(100);
 		}
 		return isDoubleDownAllowed;
@@ -164,7 +163,7 @@ public class UserInputUtility {
 		} catch (IOException e) {
 			logger.info("Error reading the value for isTripleDownAllowed. Setting it to default.");
 		} finally {
-			// Sleeping to give time to give logger to log.
+			// Sleeping to give time to logger to log.
 			Thread.sleep(100);
 		}
 		return isTripleDownAllowed;
@@ -183,7 +182,7 @@ public class UserInputUtility {
 		} catch (IOException e) {
 			logger.info("Error reading the value for doesDealerHitOn17. Setting it to default.");
 		} finally {
-			// Sleeping to give time to give logger to log.
+			// Sleeping to give time to logger to log.
 			Thread.sleep(100);
 		}
 		return doesDealerHitOn17;
@@ -204,7 +203,7 @@ public class UserInputUtility {
         } catch (IOException e) {
         	logger.info("Error reading the value for blackjackPayout. Setting it to default.");
         } finally {
-			// Sleeping to give time to give logger to log.
+			// Sleeping to give time to logger to log.
 			Thread.sleep(1000);
 		}
 		if(!userInput.equalsIgnoreCase(BJ_PAYOUT_2_TO_1) && !userInput.equalsIgnoreCase(BJ_PAYOUT_3_TO_2)) {
@@ -219,7 +218,7 @@ public class UserInputUtility {
 				}
 			}
 		}
-		// Set vvalue to default if null.
+		// Set value to default if null.
 		if (null == enteredCount) {
 			enteredCount = BLACKJACK_PAYOUT_DEFAULT;
 		}
