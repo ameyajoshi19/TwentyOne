@@ -13,7 +13,15 @@ public class Card {
 	private CardValue cardValue;
 	
 	/**
-	 * Constructor.
+	 * Constructs a new card out of given card.
+	 */
+	public Card(Card card) {
+		this.cardSuite = card.cardSuite;
+		this.cardValue = card.cardValue;
+	}
+	
+	/**
+	 * Constructs a new card with card and suit.
 	 */
 	public Card(CardValue card, SuiteValue suite) {
 		this.cardSuite = suite;

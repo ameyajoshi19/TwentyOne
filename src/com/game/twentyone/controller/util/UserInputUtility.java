@@ -21,10 +21,7 @@ import com.game.twentyone.model.game.rules.DeckPenetration;
  */
 public class UserInputUtility {
 
-	private static Logger logger = Logger.getLogger(UserInputUtility.class.getName());
-	private static InputStreamReader isr;
-	private static BufferedReader br;
-
+	private static final int DEFAULT_MINIMUM_BET = 5;
 	private static final DeckCount DECK_COUNT_DEFAULT = DeckCount.ONE;
 	private static final DeckPenetration DECK_PENETRATION_DEFAULT = DeckPenetration.EIGHTY;
 	private static final BlackJackPayout BLACKJACK_PAYOUT_DEFAULT = BlackJackPayout.TwoToOne;
@@ -34,10 +31,42 @@ public class UserInputUtility {
 	private static final boolean DEALER_HITS_ON_17_DEFAULT = Boolean.FALSE;
 	private static final String BJ_PAYOUT_2_TO_1 = "TwoToOne";
 	private static final String BJ_PAYOUT_3_TO_2 = "ThreeToTwo";
+	private static final Logger logger = Logger.getLogger(UserInputUtility.class.getName());
+	
+	private InputStreamReader isr;
+	private BufferedReader br;
 
 	public UserInputUtility() {
 		isr = new InputStreamReader(System.in);
 		br = new BufferedReader(isr);
+	}
+	
+	/**
+	 * Take the bet value as an input from the user.
+	 * @throws InterruptedException
+	 */
+	public int getBetValueFromUser() throws InterruptedException {
+		System.out.print("Enter your initial bet for the hand: ");
+		int playerBet = 0, bet = 0;
+		while(playerBet == 0) {
+			try {
+				bet = Integer.parseInt(br.readLine());
+			} catch (NumberFormatException e) {
+				System.out.print("Enter a valid integer: ");
+			} catch (IOException e) {
+				logger.info("Error reading the bet value.");
+				System.out.print("Encountered an error reading value. Enter again: ");
+			} finally {
+				// Sleeping to give time to logger to log.
+				Thread.sleep(100);
+			}
+			if (bet >= DEFAULT_MINIMUM_BET) {
+				playerBet = bet;
+			} else {
+				System.out.print("Minimum bet is " + DEFAULT_MINIMUM_BET + ". Enter minimum or more: ");
+			}
+		}
+		return playerBet;
 	}
 
 	/**
