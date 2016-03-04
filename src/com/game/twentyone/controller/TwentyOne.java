@@ -45,37 +45,52 @@ public class TwentyOne {
 	private void playGame(Game game) throws InterruptedException {
 		boolean play = true;
 		while(play) {
-			play = playNextHand(game);
+			play = inputUtil.askIfPlayerWantsToContinue();
+			if(play) {
+				playNextHand(game);
+			} else {
+				System.out.println("Thank you for playing!");
+				displayPlayerMoney(game);
+			}
 		}
 	}
 	
 	/**
-	 * Play next hand.
+	 * Play the next hand.
 	 */
-	private boolean playNextHand(Game game) throws InterruptedException {
+	private void playNextHand(Game game) throws InterruptedException {
 		// Place bet.
-		int betAmount = inputUtil.getInitialBetValueFromUser();
+		int betAmount = inputUtil.getBetValueFromUser(true);
+		// Update player money.
+		updatePlayerMoney(game, betAmount);
 		// Deal the cards.
 		dealCards(game);
 		// Display dealer and player cards.
 		displayOpenCards(game);
-		// Check if the first dealer card is an Ace.
-		boolean openDealerCardIsAce = game.getDealerHand()
-											.getHandCards()
-											.get(0)
-											.getCardValue()
-											.equals(CardValue.ACE);
 		// If the first dealer card is Ace, offer player option to surrender.
 		boolean playerWantsSurrender = false;
-		if(openDealerCardIsAce) {
+		// Offer player to surrender if open dealer card is Ace.
+		if(game.getDealerHand().getHandCards().get(0).getCardValue().equals(CardValue.ACE)) {
 			playerWantsSurrender = offerPlayerSurrender();
 		}
 		// If player doesn't want to surrender, play on.
 		if(!playerWantsSurrender) {
-			askPlayerNextMove();
-		} else {
-			
+			PlayerMove nextMove = askPlayerNextMove();
 		}
+	}
+	
+	/**
+	 * Update player money by the given amount.
+	 */
+	private void updatePlayerMoney(Game game, int betAmount) {
+		game.getPlayerMoney().setPlayerMoney(game.getPlayerMoney().getPlayerMoney() - betAmount);
+	}
+	
+	/**
+	 * Display players money.
+	 */
+	private void displayPlayerMoney(Game game) {
+		System.out.print("Your have $" + game.getPlayerMoney().getPlayerMoney());
 	}
 	
 	/**
@@ -88,13 +103,15 @@ public class TwentyOne {
 		game.getPlayerHand().displayOpenCards();
 	}
 	
+	/**
+	 * Ask player for their next move.
+	 */
 	private PlayerMove askPlayerNextMove() {
-		
+		return inputUtil.getPlayerNextMove();
 	}
 	
 	/**
 	 * Offer player the option to surrender.
-	 * @return if player wants to surrender
 	 */
 	private boolean offerPlayerSurrender() {
 		return inputUtil.getPlayerWantsSurrender();

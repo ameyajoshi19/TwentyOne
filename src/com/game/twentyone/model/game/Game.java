@@ -24,7 +24,7 @@ public class Game {
 	private Hand dealerHand;
 	private Hand playerHand;
 	
-	private static final double INITIAL_MONEY = 1000.0; 
+	public static final int INITIAL_MONEY = 1000; 
 	
 	/**
 	 * Constructor.

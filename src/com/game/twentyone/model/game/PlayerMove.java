@@ -6,4 +6,14 @@ public enum PlayerMove {
 	TRIPLE_DOWN("triple_down"),
 	BET_MORE("bet_more_money"),
 	SURRENDER("surrender");
+	
+	String move;
+	
+	PlayerMove(String move) {
+		this.move = move;
+	}
+	
+	public String getValue() {
+		return this.move;
+	}
 }

@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
+import com.game.twentyone.model.game.Game;
 import com.game.twentyone.model.game.PlayerMove;
 import com.game.twentyone.model.game.rules.BlackJackPayout;
 import com.game.twentyone.model.game.rules.DeckCount;
@@ -42,9 +43,39 @@ public class UserInputUtility {
 		br = new BufferedReader(isr);
 	}
 	
-	public PlayerMove getNextPlayerMove() {
-		System.out.println("Enter your next move.");
-		
+	public PlayerMove getPlayerNextMove() {
+		System.out.println("Enter your next move." + 
+							"\nOptions:" + 
+							"\n1. " + PlayerMove.DOUBLE_DOWN.getValue() +
+							"\n2. " + PlayerMove.TRIPLE_DOWN.getValue() +
+							"\n3. " + PlayerMove.BET_MORE.getValue());
+		int response = 0;
+		boolean gotResponse = false;
+		PlayerMove move = null;
+		while(!gotResponse) {
+			try {
+				response = Integer.parseInt(br.readLine());
+				switch(response) {
+					case 1:
+						move = PlayerMove.DOUBLE_DOWN;
+						gotResponse = true;
+						break;
+					case 2:
+						move = PlayerMove.TRIPLE_DOWN;
+						gotResponse = true;
+						break;
+					case 3:
+						move = PlayerMove.BET_MORE;
+						gotResponse = true;
+						break;
+					default:
+						System.out.print("Enter a valid choice: ");
+				}
+			} catch (IOException e) {
+				System.out.print("Error occured while reading input. Enter choice again: ");
+			}
+		}
+		return move;
 	}
 	
 	/**
@@ -79,28 +110,32 @@ public class UserInputUtility {
 	 * Take the bet value as an input from the user.
 	 * @throws InterruptedException
 	 */
-	public int getInitialBetValueFromUser() throws InterruptedException {
+	public int getBetValueFromUser(boolean isInitialBet) throws InterruptedException {
 		System.out.print("Enter your initial bet for the hand: ");
-		int playerBet = 0, bet = 0;
-		while(playerBet == 0) {
-			try {
-				bet = Integer.parseInt(br.readLine());
-			} catch (NumberFormatException e) {
-				System.out.print("Enter a valid integer: ");
-			} catch (IOException e) {
-				logger.info("Error reading the bet value.");
-				System.out.print("Encountered an error reading value. Enter again: ");
-			} finally {
-				// Sleeping to give time to logger to log.
-				Thread.sleep(100);
+		if(!isInitialBet) {
+			int playerBet = 0, bet = 0;
+			while(playerBet == 0) {
+				try {
+					bet = Integer.parseInt(br.readLine());
+				} catch (NumberFormatException e) {
+					System.out.print("Enter a valid integer: ");
+				} catch (IOException e) {
+					logger.info("Error reading the bet value.");
+					System.out.print("Encountered an error reading value. Enter again: ");
+				} finally {
+					// Sleeping to give time to logger to log.
+					Thread.sleep(100);
+				}
+				if (bet >= DEFAULT_MINIMUM_BET) {
+					playerBet = bet;
+				} else {
+					System.out.print("Minimum bet is " + DEFAULT_MINIMUM_BET + ". Enter minimum or more: ");
+				}
 			}
-			if (bet >= DEFAULT_MINIMUM_BET) {
-				playerBet = bet;
-			} else {
-				System.out.print("Minimum bet is " + DEFAULT_MINIMUM_BET + ". Enter minimum or more: ");
-			}
+			return playerBet;
+		} else {
+			return Game.INITIAL_MONEY;
 		}
-		return playerBet;
 	}
 
 	/**
