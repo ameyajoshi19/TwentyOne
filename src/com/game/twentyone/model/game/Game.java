@@ -21,6 +21,8 @@ public class Game {
 	private List<Card> unseenCards;
 	private List<Card> seenCards;
 	private PlayerMoney playerMoney;
+	private Hand dealerHand;
+	private Hand playerHand;
 	
 	private static final double INITIAL_MONEY = 1000.0; 
 	
@@ -80,5 +82,21 @@ public class Game {
 
 	public void setPlayerMoney(PlayerMoney playerMoney) {
     	this.playerMoney = playerMoney;
+    }
+
+	public Hand getDealerHand() {
+    	return dealerHand;
+    }
+
+	public void setDealerHand(Hand dealerHand) {
+    	this.dealerHand = dealerHand;
+    }
+
+	public Hand getPlayerHand() {
+    	return playerHand;
+    }
+
+	public void setPlayerHand(Hand playerHand) {
+    	this.playerHand = playerHand;
     }
 }

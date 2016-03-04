@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
+import com.game.twentyone.model.game.PlayerMove;
 import com.game.twentyone.model.game.rules.BlackJackPayout;
 import com.game.twentyone.model.game.rules.DeckCount;
 import com.game.twentyone.model.game.rules.DeckPenetration;
@@ -41,11 +42,44 @@ public class UserInputUtility {
 		br = new BufferedReader(isr);
 	}
 	
+	public PlayerMove getNextPlayerMove() {
+		System.out.println("Enter your next move.");
+		
+	}
+	
+	/**
+	 * Ask if player wants to surrender.
+	 */
+	public boolean getPlayerWantsSurrender() {
+		System.out.print("Do you want to surrender? Enter [y] or [n]: ");
+		boolean gotResponse = false;
+		boolean responseBoolean = false;;
+		while(!gotResponse) {
+			String response;
+			try {
+				response = br.readLine();
+				if("y".equalsIgnoreCase(response)) {
+					responseBoolean = true;
+					gotResponse = true;
+				} else if("n".equalsIgnoreCase(response)) {
+					responseBoolean = false;
+					gotResponse = true;
+				} else {
+					System.out.print("Invalid input. Enter [y] or [n] without the braces: ");
+				}
+			} catch (IOException e) {
+				logger.info("Error reading the bet value.");
+				System.out.print("Encountered an error reading value. Enter again: ");
+			}
+		}
+		return responseBoolean;
+	}
+	
 	/**
 	 * Take the bet value as an input from the user.
 	 * @throws InterruptedException
 	 */
-	public int getBetValueFromUser() throws InterruptedException {
+	public int getInitialBetValueFromUser() throws InterruptedException {
 		System.out.print("Enter your initial bet for the hand: ");
 		int playerBet = 0, bet = 0;
 		while(playerBet == 0) {

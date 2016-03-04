@@ -6,9 +6,11 @@ import java.util.logging.Logger;
 
 import com.game.twentyone.controller.util.UserInputUtility;
 import com.game.twentyone.model.deck.values.Card;
+import com.game.twentyone.model.deck.values.CardValue;
 import com.game.twentyone.model.game.Game;
 import com.game.twentyone.model.game.GameRules;
 import com.game.twentyone.model.game.Hand;
+import com.game.twentyone.model.game.PlayerMove;
 import com.game.twentyone.model.game.rules.BlackJackPayout;
 import com.game.twentyone.model.game.rules.DeckCount;
 import com.game.twentyone.model.game.rules.DeckPenetration;
@@ -49,23 +51,72 @@ public class TwentyOne {
 	
 	/**
 	 * Play next hand.
-	 * @throws InterruptedException 
 	 */
 	private boolean playNextHand(Game game) throws InterruptedException {
 		// Place bet.
-		int betAmount = inputUtil.getBetValueFromUser();
+		int betAmount = inputUtil.getInitialBetValueFromUser();
+		// Deal the cards.
+		dealCards(game);
+		// Display dealer and player cards.
+		displayOpenCards(game);
+		// Check if the first dealer card is an Ace.
+		boolean openDealerCardIsAce = game.getDealerHand()
+											.getHandCards()
+											.get(0)
+											.getCardValue()
+											.equals(CardValue.ACE);
+		// If the first dealer card is Ace, offer player option to surrender.
+		boolean playerWantsSurrender = false;
+		if(openDealerCardIsAce) {
+			playerWantsSurrender = offerPlayerSurrender();
+		}
+		// If player doesn't want to surrender, play on.
+		if(!playerWantsSurrender) {
+			askPlayerNextMove();
+		} else {
+			
+		}
+	}
+	
+	/**
+	 * Displays player's and dealer's open cards.
+	 */
+	private void displayOpenCards(Game game) {
+		System.out.print("DEALER CARDS: ");
+		game.getDealerHand().displayOpenCards();
+		System.out.print("\nYOUR CARDS: ");
+		game.getPlayerHand().displayOpenCards();
+	}
+	
+	private PlayerMove askPlayerNextMove() {
 		
+	}
+	
+	/**
+	 * Offer player the option to surrender.
+	 * @return if player wants to surrender
+	 */
+	private boolean offerPlayerSurrender() {
+		return inputUtil.getPlayerWantsSurrender();
+	}
+	
+	/**
+	 * Deal cards.
+	 */
+	private void dealCards(Game game) {
 		// Initialize hands.
-		Hand playerHand = new Hand();
-		Hand dealerHand = new Hand();
-		
+		Hand playerHand = new Hand(false);
+		Hand dealerHand = new Hand(true);
 		// Deal cards. Deal two cards each for player and dealer.
 		Random rand = new Random();
 		boolean dealerCard = false;
-		for(int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; i++) {
 			int random = rand.nextInt(game.getUnseenCards().size());
 			Card randomCard = game.getUnseenCards().get(random);
-			if(dealerCard) {
+			if (dealerCard) {
+				if(randomCard.equals(CardValue.ACE)) {
+					dealerHand.setHasAce(true);
+				}
 				dealerHand.addCard(randomCard);
 				game.getUnseenCards().remove(random);
 				game.getSeenCards().add(new Card(randomCard));
@@ -77,9 +128,8 @@ public class TwentyOne {
 				dealerCard = true;
 			}
 		}
-		
-		// Ask player to 'hit', 'stay' or 'double down'.
-		
+		game.setDealerHand(dealerHand);
+		game.setPlayerHand(playerHand);
 	}
 	
 	/**
@@ -124,8 +174,9 @@ public class TwentyOne {
 	
 	/**
 	 * This is the main entry point for the game. Execution begins here.
+	 * @throws InterruptedException 
 	 */
-	public static void main(String args[]) throws IOException {
+	public static void main(String args[]) throws IOException, InterruptedException {
 		TwentyOne to = new TwentyOne();
 		to.startGame();
 	}
