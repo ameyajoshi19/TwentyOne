@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.game.twentyone.model.deck.values.Card;
+import com.game.twentyone.model.deck.values.CardValue;
 
 /**
  * This class represents a list of cards and attributes associated with them.
@@ -17,12 +18,14 @@ public class Hand {
 	private boolean hasAce;
 	private boolean isDealerHand;
 	private int cardsOpen;
-	private int total;
+	private int betAmount;
+	private int cardsTotal;
 
 	public Hand(boolean isDealerHand) {
 		this.handCards = new ArrayList<Card>();
 		this.hasAce = false;
-		this.total = 0;
+		this.betAmount = 0;
+		this.cardsTotal = 0;
 		this.isDealerHand = isDealerHand;
 		if(this.isDealerHand) {
 			this.cardsOpen = 1;
@@ -39,25 +42,47 @@ public class Hand {
 		}
 	}
 	
-	public int getCardsOpen() {
-		return this.cardsOpen;
+	private int getTotalAccountingForAce() {
+		int potentialTotal = cardsTotal;
+		if(this.hasAce) {
+			for(Card c : handCards) {
+				if(c.equals(CardValue.ACE)) {
+					if(potentialTotal + 10 <= 21) {
+						potentialTotal += 10;
+					}
+				}
+			}
+		}
+		return potentialTotal;
+	}
+	
+	public int getHandTotal() {
+		return getTotalAccountingForAce();
 	}
 	
 	public void addCard(Card card) {
 		handCards.add(card);
-		total += card.getCardValue().getValue();
+		cardsTotal += card.getCardValue().getValue();
 	}
 	
 	public boolean isBlackJack() {
-		return total == 21;
+		return cardsTotal == 21;
 	}
 	
 	public boolean isBusted() {
-		return total > 21;
+		return cardsTotal > 21;
 	}
 	
-	public int getHandTotal() {
-		return total;
+	public int getCardsOpen() {
+		return this.cardsOpen;
+	}
+	
+	public int getBetAmount() {
+		return betAmount;
+	}
+	
+	public void setBetAmount(int amount) {
+		this.betAmount = amount;
 	}
 	
 	public List<Card> getHandCards() {

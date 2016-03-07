@@ -48,7 +48,8 @@ public class UserInputUtility {
 							"\nOptions:" + 
 							"\n1. " + PlayerMove.DOUBLE_DOWN.getValue() +
 							"\n2. " + PlayerMove.TRIPLE_DOWN.getValue() +
-							"\n3. " + PlayerMove.BET_MORE.getValue());
+							"\n3. " + PlayerMove.HIT.getValue() +
+							"\n4. " + PlayerMove.STAY.getValue());
 		int response = 0;
 		boolean gotResponse = false;
 		PlayerMove move = null;
@@ -65,7 +66,11 @@ public class UserInputUtility {
 						gotResponse = true;
 						break;
 					case 3:
-						move = PlayerMove.BET_MORE;
+						move = PlayerMove.HIT;
+						gotResponse = true;
+						break;
+					case 4:
+						move = PlayerMove.STAY;
 						gotResponse = true;
 						break;
 					default:

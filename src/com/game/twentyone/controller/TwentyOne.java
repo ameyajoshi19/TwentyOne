@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import com.game.twentyone.controller.util.UserInputUtility;
 import com.game.twentyone.model.deck.values.Card;
 import com.game.twentyone.model.deck.values.CardValue;
+import com.game.twentyone.model.deck.values.PlayerMoney;
 import com.game.twentyone.model.game.Game;
 import com.game.twentyone.model.game.GameRules;
 import com.game.twentyone.model.game.Hand;
@@ -37,9 +38,7 @@ public class TwentyOne {
 	 */
 	private void startGame() throws InterruptedException {
 		System.out.println("Welcome to TwentyOne! Are you ready for a game of BlackJack? Alright then!");
-		GameRules rules = initializeRules();
-		Game game = new Game(rules);
-		playGame(game);
+		playGame(new Game(initializeRules()));
 	}
 	
 	private void playGame(Game game) throws InterruptedException {
@@ -74,9 +73,59 @@ public class TwentyOne {
 			playerWantsSurrender = offerPlayerSurrender();
 		}
 		// If player doesn't want to surrender, play on.
+		boolean oneMoreCardChance = true;
 		if(!playerWantsSurrender) {
-			PlayerMove nextMove = askPlayerNextMove();
+			while(oneMoreCardChance) {
+				oneMoreCardChance = playTheNextMove(game, askPlayerNextMove());
+			}
+			boolean playerIsBust = game.getPlayerHand().isBusted();
+			
+		} else {
+			System.out.println("Surrendered.");
 		}
+	}
+	
+	/**
+	 * Play user's next move.
+	 */
+	private boolean playTheNextMove(Game game, PlayerMove nextMove) {
+		boolean isPlayerBust = game.getPlayerHand().isBusted();
+		if(!isPlayerBust) {
+			if(nextMove.equals(PlayerMove.DOUBLE_DOWN)) {
+				playDoubleDown(game);
+			} else if(nextMove.equals(PlayerMove.TRIPLE_DOWN)) {
+				playTripleDown(game);
+			} else if(nextMove.equals(PlayerMove.HIT)) {
+				dealACard(game, game.getPlayerHand());
+			} else if(nextMove.equals(PlayerMove.STAY)) {
+				return false;
+			}
+		}
+		return game.getPlayerHand().isBusted();
+	}
+	
+	/**
+	 * Play player double down.
+	 */
+	private void playDoubleDown(Game game) {
+		Hand playerHand = game.getPlayerHand();
+		int betAmount = playerHand.getBetAmount();
+		PlayerMoney money = game.getPlayerMoney();
+		money.setPlayerMoney(money.getPlayerMoney() - betAmount);
+		playerHand.setBetAmount(betAmount * 2);
+		dealACard(game, game.getPlayerHand());
+	}
+	
+	/**
+	 * Play player triple down.
+	 */
+	private void playTripleDown(Game game) {
+		Hand playerHand = game.getPlayerHand();
+		int betAmount = playerHand.getBetAmount();
+		PlayerMoney money = game.getPlayerMoney();
+		money.setPlayerMoney(money.getPlayerMoney() - (betAmount * 2));
+		playerHand.setBetAmount(betAmount * 3);
+		dealACard(game, game.getPlayerHand());
 	}
 	
 	/**
@@ -125,28 +174,32 @@ public class TwentyOne {
 		Hand playerHand = new Hand(false);
 		Hand dealerHand = new Hand(true);
 		// Deal cards. Deal two cards each for player and dealer.
-		Random rand = new Random();
 		boolean dealerCard = false;
 		for (int i = 0; i < 4; i++) {
-			int random = rand.nextInt(game.getUnseenCards().size());
-			Card randomCard = game.getUnseenCards().get(random);
-			if (dealerCard) {
-				if(randomCard.equals(CardValue.ACE)) {
-					dealerHand.setHasAce(true);
-				}
-				dealerHand.addCard(randomCard);
-				game.getUnseenCards().remove(random);
-				game.getSeenCards().add(new Card(randomCard));
+			if(dealerCard) {
+				dealACard(game, dealerHand);
 				dealerCard = false;
 			} else {
-				playerHand.addCard(randomCard);
-				game.getUnseenCards().remove(random);
-				game.getSeenCards().add(new Card(randomCard));
+				dealACard(game, playerHand);
 				dealerCard = true;
 			}
 		}
 		game.setDealerHand(dealerHand);
 		game.setPlayerHand(playerHand);
+	}
+	
+	/**
+	 * Deal a card.
+	 */
+	private void dealACard(Game game, Hand hand) {
+		int random = new Random().nextInt(game.getUnseenCards().size());
+		Card randomCard = game.getUnseenCards().get(random);
+		if(randomCard.equals(CardValue.ACE)) {
+			hand.setHasAce(true);
+		}
+		game.getUnseenCards().remove(random);
+		game.getSeenCards().add(randomCard);
+		hand.addCard(randomCard);
 	}
 	
 	/**
